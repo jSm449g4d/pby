@@ -7,9 +7,16 @@ const renewSensorData = () => {
         setSensorData([dat.accelerationIncludingGravity.x, dat.accelerationIncludingGravity.y, dat.accelerationIncludingGravity.z])
     });
 }*/
+const useInterval = (callback: Function, delay?: number) => {
+    useEffect(() => {
+        const interval = setInterval(() => callback(), delay || 0);
+        return () => clearInterval(interval);
+    }, [callback, delay]);
+}
 
 export const IchiWidgetHead = () => {
     const [sensorData, setSensorData] = useState([0, 0, 0])
+    const [sensorData2, setSensorData2] = useState([0, 0, 0])
     const [countData, setCountData] = useState(0)
     const browserData = () => {
         return "ブラウザ⇒" + window.navigator.userAgent;
@@ -18,8 +25,10 @@ export const IchiWidgetHead = () => {
         window.addEventListener("devicemotion", (dat) => {
             setSensorData([dat.accelerationIncludingGravity.x, dat.accelerationIncludingGravity.y, dat.accelerationIncludingGravity.z])
         });
-        setCountData(countData+1)
+        setCountData(countData + 1)
     };
+    const startAccelerationCounting = () => {
+    }
     return (
         <div id="Ichi-widget-head">
             <div className="row p-1 px-3 ftcol">
@@ -43,11 +52,11 @@ export const IchiWidgetHead = () => {
                     <div className="d-flex justify-content-center" style={{ fontFamily: "Courier", color: "darkslategray" }}>
                         情報<br />
                         {browserData()}<br />
-                        {"加速度センサー⇒" + "x=" + sensorData[0] + " y=" + sensorData[1] + " z=" + sensorData[2]+ " C=" + countData}<br />
+                        {"加速度センサー⇒" + "x=" + sensorData[0] + " y=" + sensorData[1] + " z=" + sensorData[2] + " C=" + countData}<br />
                     </div>
                     <button className="input-group-append btn btn-outline-primary btn-lg" id="index_kensaku_button"
                         onClick={() => { renewSensorData() }}>
-                        <i className="fas fa-search mr-1"></i>情報更新
+                        <i className="fas fa-search mr-1"></i>開始
                     </button>
                 </div>
             </div>
