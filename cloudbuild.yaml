@@ -19,7 +19,7 @@ steps:
       - deploy
       - $_APPNAME
       - --image
-      - $PROJECT_ID/$_APPNAME
+      - gcr.io/$PROJECT_ID/$_APPNAME
       - --platform
       - managed
       - --timeout
@@ -30,4 +30,4 @@ steps:
       - 1Gi
       - --allow-unauthenticated
 images:
-  - $PROJECT_ID/$_APPNAME
+  - gcr.io/$PROJECT_ID/$_APPNAME
