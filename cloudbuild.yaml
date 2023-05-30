@@ -20,8 +20,6 @@ steps:
       - $_APPNAME
       - --image
       - $_CONTAINER/$_APPNAME:latest
-      - --region
-      - asia-northeast1
       - --platform
       - managed
       - --timeout
