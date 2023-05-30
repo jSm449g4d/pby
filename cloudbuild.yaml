@@ -4,14 +4,14 @@ steps:
     args:
       - build
       - -t
-      - $_CONTAINER/$_APPNAME
+      - $PROJECT_ID/$_APPNAME
       - .
     dir: www
     # push image to Container Registry
   - name: gcr.io/cloud-builders/docker
     args:
       - push
-      - $_CONTAINER/$_APPNAME
+      - $PROJECT_ID/$_APPNAME
     # deploy
   - name: gcr.io/cloud-builders/gcloud
     args:
@@ -19,7 +19,7 @@ steps:
       - deploy
       - $_APPNAME
       - --image
-      - $_CONTAINER/$_APPNAME:latest
+      - $PROJECT_ID/$_APPNAME:latest
       - --platform
       - managed
       - --timeout
