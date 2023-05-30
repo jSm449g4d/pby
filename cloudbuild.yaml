@@ -24,6 +24,8 @@ steps:
       - managed
       - --timeout
       - "300"
+      - --region
+      - asia-northeast1
       - --memory
       - 1Gi
       - --allow-unauthenticated
