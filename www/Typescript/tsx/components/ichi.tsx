@@ -52,7 +52,7 @@ export const IchiWidgetHead = () => {
                     <div className="d-flex justify-content-center" style={{ fontFamily: "Courier", color: "darkslategray" }}>
                         情報<br />
                         {browserData()}<br />
-                        {"加速度センサー⇒" + "x=" + sensorData[0].toFixed(4) + " y=" + sensorData[1].toFixed(4) + " z=" + sensorData[2].toFixed(4) + " Count=" + countData}<br />
+                        {"加速度センサー⇒" + "x=" + sensorData[0] + " y=" + sensorData[1] + " z=" + sensorData[2] + " Count=" + countData}<br />
                     </div>
                     <button className="input-group-append btn btn-outline-primary btn-lg" id="index_kensaku_button"
                         onClick={() => { renewSensorData() }}>
