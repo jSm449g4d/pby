@@ -28,10 +28,14 @@ export const IchiWidgetHead = () => {
         })
     }, [])
     useInterval(() => {
+        const timeResolution = 10, timeMeasurement = 500;
         setSensorData2([sensorData[0] + sensorData2[0], sensorData[1] + sensorData2[1], sensorData[2] + sensorData2[2]])
-        setSensorCount(sensorCount + 10)
-        if (sensorCount > 1000) {
-            setSensorData3([sensorData2[0], sensorData2[1], sensorData2[2]])
+        setSensorCount(sensorCount + timeResolution)
+        if (sensorCount > timeMeasurement) {
+            setSensorData3([
+                sensorData2[0] * timeResolution / timeMeasurement,
+                sensorData2[1] * timeResolution / timeMeasurement,
+                sensorData2[2] * timeResolution / timeMeasurement])
             setSensorData2([0, 0, 0])
             setSensorCount(0)
         }
@@ -59,7 +63,8 @@ export const IchiWidgetHead = () => {
                     <div className="d-flex justify-content-center" style={{ fontFamily: "Courier", color: "darkslategray" }}>
                         情報<br />
                         {browserData()}<br />
-                        {"加速度センサー⇒" + "x=" + sensorData3[0] + " y=" + sensorData3[1] + " z=" + sensorData3[2]}<br />
+                        {"加速度センサー⇒" + "x=" + sensorData3[0].toFixed(4) +
+                            " y=" + sensorData3[1].toFixed(4) + " z=" + sensorData3[2].toFixed(4)}<br />
                     </div>
                 </div>
             </div>
