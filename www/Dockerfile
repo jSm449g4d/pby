@@ -15,7 +15,8 @@ RUN npm i
 # Typescript
 WORKDIR $APP/Typescript
 # Webpack
-RUN npm i -D
+RUN npm i -D typescript webpack webpack-cli && \
+    npm i -D
 RUN npx webpack
 
 # Python3
