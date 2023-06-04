@@ -1,5 +1,5 @@
 
-FROM python:3.8
+FROM python:3.11
 
 # Init
 ENV APP /var/www
@@ -10,13 +10,13 @@ RUN apt update -q;apt upgrade -yq
 # Javascript
 WORKDIR $APP/html/static
 RUN apt install npm -yq
+RUN npm install -g npm
 RUN npm i
 
 # Typescript
 WORKDIR $APP/Typescript
 # Webpack
-RUN npm i -g typescript webpack webpack-cli && \
-    npm i -D
+RUN npm i -D
 RUN npx webpack
 
 # Python3
