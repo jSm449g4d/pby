@@ -15,7 +15,7 @@ RUN npm i
 # Typescript
 WORKDIR $APP/Typescript
 # Webpack
-RUN npm i -D typescript webpack webpack-cli && \
+RUN npm i -g typescript webpack webpack-cli && \
     npm i -D
 RUN npx webpack
 
