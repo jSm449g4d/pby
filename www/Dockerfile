@@ -10,6 +10,7 @@ RUN apt update -q;apt upgrade -yq
 # Javascript
 WORKDIR $APP/html/static
 RUN apt install npm -yq
+RUN npm install -g npm
 RUN npm install
 
 # Typescript
