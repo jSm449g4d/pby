@@ -7,11 +7,14 @@ WORKDIR $APP
 COPY . .
 RUN apt update -q;apt upgrade -yq
 
-# Javascript
-WORKDIR $APP/html/static
+# npmSetup
 RUN apt install npm -yq
+RUN npm install -g n
 RUN n latest
 RUN npm i -g npm
+
+# Javascript
+WORKDIR $APP/html/static
 RUN npm i
 
 # Typescript
