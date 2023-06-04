@@ -30,9 +30,6 @@ module.exports = {
   externals: {
     react: "React",
     "react-dom": "ReactDOM",
-    'recharts':'Recharts',
-    'moment':'moment',
-    'crypto-js':'CryptoJS',
-    'js-cookie':'Cookies',
+    recharts: "Recharts",
   },
 };
