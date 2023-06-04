@@ -17,17 +17,30 @@ const useInterval = (callback: Function, delay?: number) => {
 export const IchiWidgetHead = () => {
     const [sensorData, setSensorData] = useState([0, 0, 0])
     const [sensorData2, setSensorData2] = useState([0, 0, 0])
-    const [countData, setCountData] = useState(0)
+    const [sensorData3, setSensorData3] = useState([0, 0, 0])
+    const [sensorCount, setSensorCount] = useState(0)
+    const [aCInterval, setACInterval] = useState(null)
     const browserData = () => {
         return "ブラウザ⇒" + window.navigator.userAgent;
     }
-    const renewSensorData = () => {
+    const startAccelerationCounting = () => {
+        if (aCInterval != null) return
         window.addEventListener("devicemotion", (dat) => {
             setSensorData([dat.accelerationIncludingGravity.x, dat.accelerationIncludingGravity.y, dat.accelerationIncludingGravity.z])
         });
-        setCountData(countData + 1)
-    };
-    const startAccelerationCounting = () => {
+        const interval = setInterval(() => {
+            setSensorData2([sensorData[0] + sensorData2[0], sensorData[1] + sensorData2[1], sensorData[2] + sensorData2[2]])
+            setSensorCount(sensorCount + 10)
+            if (sensorCount > 1000) {
+                setSensorData3([sensorData2[0], sensorData2[1], sensorData2[2]])
+                setSensorData2([0, 0, 0])
+                setSensorCount(0)
+            }
+        }, 10)
+        setACInterval(interval)
+    }
+    const closeAccelerationCounting = () => {
+        if (aCInterval != null) { clearInterval(aCInterval); setACInterval(null); }
     }
     return (
         <div id="Ichi-widget-head">
@@ -52,21 +65,18 @@ export const IchiWidgetHead = () => {
                     <div className="d-flex justify-content-center" style={{ fontFamily: "Courier", color: "darkslategray" }}>
                         情報<br />
                         {browserData()}<br />
-                        {"加速度センサー⇒" + "x=" + sensorData[0] + " y=" + sensorData[1] + " z=" + sensorData[2] + " Count=" + countData}<br />
+                        {"加速度センサー⇒" + "x=" + sensorData3[0] + " y=" + sensorData3[1] + " z=" + sensorData3[2]}<br />
                     </div>
-                    <button className="input-group-append btn btn-outline-primary btn-lg" id="index_kensaku_button"
-                        onClick={() => { renewSensorData() }}>
+                    <button className="input-group-append btn btn-outline-primary btn-lg" id="index_2_button"
+                        onClick={() => { startAccelerationCounting() }}>
                         <i className="fas fa-search mr-1"></i>開始
+                    </button>
+                    <button className="input-group-append btn btn-outline-secondary btn-lg" id="index_3_button"
+                        onClick={() => { closeAccelerationCounting() }}>
+                        <i className="fas fa-search mr-1"></i>終了
                     </button>
                 </div>
             </div>
         </div>
     );
 }
-
-/*
-                            {"加速度センサー⇒" + "x" + sensorData[0] + " y" + sensorData[1] + " z" + sensorData[2]}<br />
-                        <button className="input-group-append btn btn-outline-primary btn-lg" id="index_kensaku_button"
-                            onClick={() => { renewSensorData(); }}>
-                            <i className="fas fa-search mr-1"></i>情報更新
-                        </button> */
