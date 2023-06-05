@@ -1,12 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../stylecheets/widgetstyle.sass';
+import { io } from 'socket.io-client';
+// io
 
-/*
-const renewSensorData = () => {
-    window.addEventListener("devicemotion", (dat) => {
-        setSensorData([dat.accelerationIncludingGravity.x, dat.accelerationIncludingGravity.y, dat.accelerationIncludingGravity.z])
-    });
-}*/
 const useInterval = (callback: Function, delay?: number) => {
     useEffect(() => {
         const interval = setInterval(() => callback(), delay || 0);
@@ -19,6 +15,7 @@ export const IchiWidgetHead = () => {
     const [sensorData2, setSensorData2] = useState([0, 0, 0])
     const [sensorData3, setSensorData3] = useState([0, 0, 0])
     const [sensorCount, setSensorCount] = useState(0)
+    const timeResolution = 1000, timeMeasurement = 5000;
     const browserData = () => {
         return "ブラウザ⇒" + window.navigator.userAgent;
     }
@@ -28,7 +25,6 @@ export const IchiWidgetHead = () => {
         })
     }, [])
     useInterval(() => {
-        const timeResolution = 10, timeMeasurement = 500;
         setSensorData2([sensorData[0] + sensorData2[0], sensorData[1] + sensorData2[1], sensorData[2] + sensorData2[2]])
         setSensorCount(sensorCount + timeResolution)
         if (sensorCount > timeMeasurement) {
@@ -39,7 +35,7 @@ export const IchiWidgetHead = () => {
             setSensorData2([0, 0, 0])
             setSensorCount(0)
         }
-    }, 10)
+    }, timeResolution)
     return (
         <div id="Ichi-widget-head">
             <div className="row p-1 px-3 ftcol">
@@ -64,7 +60,8 @@ export const IchiWidgetHead = () => {
                         情報<br />
                         {browserData()}<br />
                         {"加速度センサー⇒" + "x=" + sensorData3[0].toFixed(4) +
-                            " y=" + sensorData3[1].toFixed(4) + " z=" + sensorData3[2].toFixed(4)}<br />
+                            " y=" + sensorData3[1].toFixed(4) + " z=" + sensorData3[2].toFixed(4)
+                        }<br />
                     </div>
                 </div>
             </div>
