@@ -11,29 +11,32 @@ const useInterval = (callback: Function, delay?: number) => {
 }
 
 export const IchiWidgetHead = () => {
-    const [sensorData, setSensorData] = useState([0, 0, 0])
-    const [sensorData2, setSensorData2] = useState([0, 0, 0])
+    const sensorData = useRef([0, 0, 0])
+    const sensorData2 = useRef([0, 0, 0])
     const [sensorData3, setSensorData3] = useState([0, 0, 0])
-    const [sensorCount, setSensorCount] = useState(0)
-    const timeResolution = 1000, timeMeasurement = 5000;
+    const sensorCount = useRef(0)
+    const timeResolution = 10, timeMeasurement = 5000;
     const browserData = () => {
         return "ブラウザ⇒" + window.navigator.userAgent;
     }
     useEffect(() => {
         window.addEventListener("devicemotion", (dat) => {
-            setSensorData([dat.accelerationIncludingGravity.x, dat.accelerationIncludingGravity.y, dat.accelerationIncludingGravity.z])
+            sensorData.current = [dat.accelerationIncludingGravity.x, dat.accelerationIncludingGravity.y, dat.accelerationIncludingGravity.z]
         })
     }, [])
     useInterval(() => {
-        setSensorData2([sensorData[0] + sensorData2[0], sensorData[1] + sensorData2[1], sensorData[2] + sensorData2[2]])
-        setSensorCount(sensorCount + timeResolution)
-        if (sensorCount > timeMeasurement) {
+        sensorData2.current = [
+            sensorData.current[0] + sensorData2.current[0],
+            sensorData.current[1] + sensorData2.current[1],
+            sensorData.current[2] + sensorData2.current[2]]
+        sensorCount.current = sensorCount.current + timeResolution
+        if (sensorCount.current > timeMeasurement) {
             setSensorData3([
-                sensorData2[0] * timeResolution / timeMeasurement,
-                sensorData2[1] * timeResolution / timeMeasurement,
-                sensorData2[2] * timeResolution / timeMeasurement])
-            setSensorData2([0, 0, 0])
-            setSensorCount(0)
+                sensorData2.current[0] * timeResolution / timeMeasurement,
+                sensorData2.current[1] * timeResolution / timeMeasurement,
+                sensorData2.current[2] * timeResolution / timeMeasurement])
+            sensorData2.current = [0, 0, 0]
+            sensorCount.current = 0
         }
     }, timeResolution)
     return (
