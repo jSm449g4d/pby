@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import '../stylecheets/widgetstyle.sass';
 import { io } from 'socket.io-client';
-// io
 
 const useInterval = (callback: Function, delay?: number) => {
     useEffect(() => {
@@ -16,6 +15,21 @@ export const IchiWidgetHead = () => {
     const [sensorData3, setSensorData3] = useState([0, 0, 0])
     const sensorCount = useRef(0)
     const timeResolution = 10, timeMeasurement = 5000;
+    const [socketMessage, setSocketMessage] = useState("none")
+
+    const socket = useRef(null)
+    const soketSend = () => {
+        socket.current.on('test', () => { })
+        setSocketMessage("")
+    }
+    useEffect(() => {
+        socket.current = io(location.href)
+        socket.current.on('connect', () => { });
+    //    socket.current.emit('my event', { data: 'I\'m connected!' });
+        return () => { socket.current.disconnect(); };
+    }, []);
+
+
     const browserData = () => {
         return "ブラウザ⇒" + window.navigator.userAgent;
     }
@@ -65,6 +79,13 @@ export const IchiWidgetHead = () => {
                         {"加速度センサー⇒" + "x=" + sensorData3[0].toFixed(4) +
                             " y=" + sensorData3[1].toFixed(4) + " z=" + sensorData3[2].toFixed(4)
                         }<br />
+                    </div>
+                    <div className="d-flex justify-content-center" style={{ fontFamily: "Courier", color: "darkslategray" }}>
+                        <button className="input-group-append btn btn-outline-primary btn-lg" id="index_send_button"
+                            onClick={() => { soketSend(); }}>
+                            <i className="fas fa-search mr-1"></i>send
+                        </button><br />
+                        {"socketMessage⇒" + socketMessage}<br />
                     </div>
                 </div>
             </div>

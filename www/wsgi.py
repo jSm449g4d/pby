@@ -3,13 +3,14 @@ import os
 import sys
 import importlib
 import flask
-
+from flask_socketio import SocketIO
 
 # Flask_Startup
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(os.path.dirname(os.path.join("./", __file__)))
 app = flask.Flask(
     __name__, template_folder="./templates/", static_folder='./html/static/')
+socketio = SocketIO(app)
 app.config['MAX_CONTENT_LENGTH'] = 10000000
 
 
@@ -29,7 +30,6 @@ def py_show(name):
     except Exception as e:
         return flask.render_template("error.html", STATUS_ERROR_TEXT=str(e)), 500
 
-
 @app.route('/<path:name>', methods=["GET", "POST"])
 def html_show(name):
     try:
@@ -37,6 +37,18 @@ def html_show(name):
     except:
         return "cant_access", 404
 
+# Websocket
+@socketio.on('connect')
+def connect():
+    print("A")
+
+@socketio.on('disconnect')
+def disconnect():
+    print("B")
+
+#@socketio.on('test')
+#def ontest():
+#    print("c")
 
 application = app
 

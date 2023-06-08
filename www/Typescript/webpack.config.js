@@ -31,6 +31,6 @@ module.exports = {
     react: "React",
     "react-dom": "ReactDOM",
     recharts: "Recharts",
-    "socket.io-client": "SocketIoClient",
+    "socket.io": "Socket.IO",
   },
 };
