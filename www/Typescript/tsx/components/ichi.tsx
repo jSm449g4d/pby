@@ -14,7 +14,7 @@ export const IchiWidgetHead = () => {
     const sensorData2 = useRef([0, 0, 0])
     const [sensorData3, setSensorData3] = useState([0, 0, 0])
     const sensorCount = useRef(0)
-    const timeResolution = 10, timeMeasurement = 5000;
+    const timeResolution = 10, timeMeasurement = 500;
     const [socketMessage, setSocketMessage] = useState("none")
 
     const socket = useRef(null)
