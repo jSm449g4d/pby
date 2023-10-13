@@ -60,7 +60,7 @@ export const IchiWidgetHead = () => {
                     <div className="d-flex justify-content-center justify-content-lg-start">
                         <a className="a-nolink" onClick={(evt) => { window.location.href = "https://pby-tlnesjcoqq-an.a.run.app/" }}>
                             <h2 className="slidein-2 btn-push" style={{ fontFamily: "Impact", color: "indigo" }}>
-                                <i className="fas fa-book mr-1"></i>工事中
+                                <i className="fas fa-book mr-1"></i>工事中des
                             </h2>
                         </a>
                     </div>
